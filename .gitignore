@@ -1,0 +1,12 @@
+.DS_Store
+/[lL]ibrary/
+/[tT]emp/
+/Assets/Tmp/
+/Assets/Tmp.meta/
+*.csproj
+*.pidb
+*.resources
+*.unityproj
+*.sln
+*.userprefs
+*.usertasks
