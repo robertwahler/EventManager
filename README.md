@@ -1,15 +1,12 @@
 EventManager
 ============
 
-What?
------
-
 A type-safe event system for Unity3D based on the event listener pattern. The
 code in this repository is a minor variation of the event system originally
 described here:  http://www.willrmiller.com/?p=87
 
-Why?
-----
+Features
+--------
 
 * Loosely coupled
 * Type-safe
