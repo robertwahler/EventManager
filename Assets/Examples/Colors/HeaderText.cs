@@ -36,7 +36,7 @@ namespace Colors {
     public void OnButtonClickEvent(ButtonClickEvent e) {
       Debug.Log(string.Format("HeaderText.OnClick({0})", e));
 
-      string caption = string.Format("{0} '{1}' was clicked.", e.ButtonHandler.kind, e.ButtonHandler.name);
+      string caption = string.Format("{0} '{1}' was clicked.\nEventManager.DelegateLookupCount is {2}", e.ButtonHandler.kind, e.ButtonHandler.name, EventManager.Instance.DelegateLookupCount);
       text.text = caption;
     }
 
@@ -46,7 +46,7 @@ namespace Colors {
     public void OnButtonRemovedEvent(ButtonRemovedEvent e) {
       Debug.Log(string.Format("HeaderText.OnButtonRemoved({0})", e));
 
-      string caption = string.Format("'{0}' was removed. EventManager.DelegateLookupCount is {1}.", e.Name, EventManager.Instance.DelegateLookupCount);
+      string caption = string.Format("'{0}' was removed.", e.Name);
       text.text = caption;
     }
 
