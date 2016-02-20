@@ -46,7 +46,7 @@ namespace Colors {
     public void OnButtonRemovedEvent(ButtonRemovedEvent e) {
       Debug.Log(string.Format("HeaderText.OnButtonRemoved({0})", e));
 
-      string caption = string.Format("'{0}' was removed. EventManager.DelegateCount is {1}.", e.Name, EventManager.Instance.DelegateCount);
+      string caption = string.Format("'{0}' was removed. EventManager.DelegateLookupCount is {1}.", e.Name, EventManager.Instance.DelegateLookupCount);
       text.text = caption;
     }
 

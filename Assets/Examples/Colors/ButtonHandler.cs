@@ -83,7 +83,7 @@ namespace Colors {
     /// OnRemove handler for the Button on this specific GameObject
     /// </summary>
     public void OnRemove() {
-      Debug.Log(string.Format("ButtonHandler.OnRemove() name {0} removing, EventManager.DelegateCount {1}", name, EventManager.Instance.DelegateCount));
+      Debug.Log(string.Format("ButtonHandler.OnRemove() name {0} removing, EventManager.DelegateLookupCount {1}", name, EventManager.Instance.DelegateLookupCount));
 
       buttonRemovedEvent.Name = name;
       buttonRemovedEvent.Kind = kind;

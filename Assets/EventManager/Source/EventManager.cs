@@ -93,7 +93,7 @@ namespace SDD.Events {
     /// The count of delegate lookups. The delegate lookups will increase by
     /// one for each unique AddListener. Useful for debugging and not much else.
     /// </summary>
-    public int DelegateCount { get { return delegateLookup.Count; }}
+    public int DelegateLookupCount { get { return delegateLookup.Count; }}
 
     /// <summary>
     /// Raise the event to all the listeners
