@@ -2,7 +2,7 @@
 /[lL]ibrary/
 /[tT]emp/
 /Assets/Tmp/
-/Assets/Tmp.meta/
+/Assets/Tmp.meta
 *.csproj
 *.pidb
 *.resources
