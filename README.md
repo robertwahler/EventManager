@@ -24,9 +24,13 @@ Unity's own EventSystem may be more appropriate for that use case.
 Installation
 ------------
 
+Install the source or build a DLL.
+
+### Option 1: Source Installation
+
 Copy the Assets/EventManager folder to your project's Assets folder.
 
-### Source and Unit Tests
+#### Source and Unit Tests
 
 NOTE: Unit tests are stored in an 'Editor' folder so they are not added to your build
 
@@ -35,13 +39,33 @@ NOTE: Unit tests are stored in an 'Editor' folder so they are not added to your 
     git clone https://github.com/robertwahler/EventManager
     cp -R EventManager/Assets/EventManager ~/your_unity_project/Assets/
 
-### Examples (optional)
+#### Examples (optional)
 
     cp -R EventManager/Assets/Examples ~/your_unity_project/Assets/EventManager/
 
-### Record Version SHA (optional)
+#### Record Version SHA (optional)
 
     git --git-dir=./EventManager/.git log --pretty=format:%h -1 > ~/your_unity_project/Assets/EventManager/VERSION
+
+### Option 2: DLL Installation
+
+Create a DLL and copy it to your Assets folder.  These instructions expect the
+standard Mono mcs compiler.  If you need it on OS X, you can install it with
+HomeBrew ```brew install mono```
+
+    mkdir build
+
+    mcs -recurse:'Assets/EventManager/Source/*.cs' \
+        -lib:/Applications/Unity.5.3.1/Unity.app/Contents/Frameworks/ \
+        -lib:/Applications/Unity.5.3.1/Unity.app/Contents/Frameworks/Managed/ \
+        -r:UnityEngine \
+        -r:UnityEditor \
+        -target:library \
+        -out:build/SDD.EventManager.dll
+
+    mkdir Assets/Lib
+
+    cp build/SDD.EventManager.dll ~/your_unity_project/Assets/Lib/
 
 Testing
 -------
