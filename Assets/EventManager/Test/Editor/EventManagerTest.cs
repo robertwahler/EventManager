@@ -14,6 +14,8 @@ namespace SDD.Events.Test {
   [Category("EventManager")]
   public class EventManagerTest  {
 
+    private int delegateLookupCount = 0;
+
     private int testOneEventCount = 0;
     private string testOneEventName = "";
 
@@ -32,11 +34,11 @@ namespace SDD.Events.Test {
 
     [SetUp]
     public void Before() {
+      delegateLookupCount = EventManager.Instance.DelegateLookupCount;
       testOneEventCount = 0;
       testOneEventName = "";
       testTwoEventCount = 0;
       testTwoEventName = "";
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
     }
 
     [TearDown]
@@ -44,7 +46,7 @@ namespace SDD.Events.Test {
       // ensure cleanup
       EventManager.Instance.RemoveListener<TestOneEvent>(OnTestOne);
       EventManager.Instance.RemoveListener<TestTwoEvent>(OnTestTwo);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount);
     }
 
     [Test]
@@ -56,10 +58,10 @@ namespace SDD.Events.Test {
     [Test]
     public void AddListenerIncrementsLookupCountOncePer() {
       EventManager.Instance.AddListener<TestOneEvent>(OnTestOne);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 1);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount + 1);
 
       EventManager.Instance.AddListener<TestOneEvent>(OnTestOne);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 1);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount + 1);
     }
 
     [Test]
@@ -67,20 +69,20 @@ namespace SDD.Events.Test {
       EventManager.Instance.AddListener<TestOneEvent>(OnTestOne);
       EventManager.Instance.AddListener<TestOneEvent>(OnTestOne);
       EventManager.Instance.AddListener<TestOneEvent>(OnTestOne);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 1);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount + 1);
 
       EventManager.Instance.RemoveListener<TestOneEvent>(OnTestOne);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount);
     }
 
     [Test]
     public void RemoveListenerHandlesNoListeners() {
       Assert.IsTrue(testOneEventCount == 0);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount);
 
       EventManager.Instance.RemoveListener<TestOneEvent>(OnTestOne);
       Assert.IsTrue(testOneEventCount == 0);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount);
     }
 
     [Test]
@@ -109,11 +111,11 @@ namespace SDD.Events.Test {
     [Test]
     public void RaiseHandlesNoListeners() {
       Assert.IsTrue(testOneEventCount == 0);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount);
 
       EventManager.Instance.Raise(new TestOneEvent() { Name="One A" });
       Assert.IsTrue(testOneEventCount == 0);
-      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == 0);
+      Assert.IsTrue(EventManager.Instance.DelegateLookupCount == delegateLookupCount);
     }
   }
 }
