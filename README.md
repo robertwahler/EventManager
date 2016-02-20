@@ -4,9 +4,9 @@ EventManager
 What?
 -----
 
-A type-safe event system for Unity3D based on the event listener pattern. This
-repositories code is a minor variation of the event system originally described
-here:  http://www.willrmiller.com/?p=87
+A type-safe event system for Unity3D based on the event listener pattern. The
+code in this repository is a minor variation of the event system originally
+described here:  http://www.willrmiller.com/?p=87
 
 Why?
 ----
@@ -24,7 +24,6 @@ Usage
 -----
 
 See Assets/Examples
-
 
 License
 -------

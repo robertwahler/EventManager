@@ -4,19 +4,16 @@ using System.Collections.Generic;
 namespace SDD.Events {
 
   /// <summary>
-  /// Event Manager manages publishing raised events to subscribing/listening classes. 
+  /// Event Manager manages publishing raised events to subscribing/listening classes.
   ///
   /// @example subscribe
   ///     EventManager.Instance.AddListener<SomethingHappenedEvent>(OnSomethingHappened);
-  ///     Events.AddListener<BoardMatchEvent>(OnBoardMatch);
   ///
   /// @example unsubscribe
   ///     EventManager.Instance.RemoveListener<SomethingHappenedEvent>(OnSomethingHappened);
-  ///     Events.RemoveListener<BoardMatchEvent>(OnBoardMatch);
   ///
-  /// @example publish and event
+  /// @example publish an event
   ///     EventManager.Instance.Raise(new SomethingHappenedEvent());
-  ///     Events.Raise(new SomethingHappenedEvent());
   ///
   /// This class is a minor variation on <http://www.willrmiller.com/?p=87>
   /// </summary>
@@ -37,7 +34,7 @@ namespace SDD.Events {
     private delegate void EventDelegate(Event e);
 
     /// <summary>
-    /// The actual delegate, there is one delegate per unqiue event. Each
+    /// The actual delegate, there is one delegate per unique event. Each
     /// delegate has multiple invocation list items.
     /// </summary>
     private Dictionary<System.Type, EventDelegate> delegates = new Dictionary<System.Type, EventDelegate>();
