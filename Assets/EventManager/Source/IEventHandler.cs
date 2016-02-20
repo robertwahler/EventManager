@@ -6,14 +6,22 @@ namespace SDD.Events {
   public interface IEventHandler {
 
     /// <summary>
-    /// @example usage for body of method
-    ///     EventManager.OnSetRule += OnSetRule;
+    /// Subscribe to events
+    ///
+    /// @example
+    ///   Events.AddListener<MoveResolvedEvent>(OnMoveResolved);
+    ///     or
+    ///   EventManager.OnSetRule += OnSetRule;
     /// </summary>
     void SubscribeEvents();
 
     /// <summary>
-    /// @example usage for body of method
-    ///    EventManager.OnSetRule -= OnSetRule;
+    /// Unsubscribe from events
+    ///
+    /// @example
+    ///   Events.RemoveListener<MoveResolvedEvent>(OnMoveResolved);
+    ///     or
+    ///   EventManager.OnSetRule -= OnSetRule;
     /// </summary>
     void UnsubscribeEvents();
 

@@ -1,14 +1,21 @@
 EventManager
 ============
 
-A type-safe event system for Unity3D based on the event listener pattern. The
-code in this repository is a minor variation of the event system originally
-described here:  http://www.willrmiller.com/?p=87
+A type-safe event system for Unity3D based on the event listener pattern.
+
+The code in this repository is a minor variation with added examples and tests
+of the event system originally described here:
+http://www.willrmiller.com/?p=87
 
 This repository was created with Unity version 5.3.1
 
 Features
 --------
+
+EventManager is useful when you want to keep your codebase loosely coupled.
+Publishers and subscribers don't need to know anything about each other.
+EventManager is not a solution for exposing callbacks in the Unity Editor,
+Unity's own EventSystem may be more appropriate for that use case.
 
 * Loosely coupled
 * Type-safe
