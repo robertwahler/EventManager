@@ -42,7 +42,30 @@ module BasicUnity
       end
     end
 
+    desc "nunit", "run unit tests via nunit-console, bypassing Unity"
+    def nunit
+      invoke("compile:test")
+      command = "export MONO_PATH=#{mono_path}; #{mono_binary} --debug #{nunit_binary} -noshadow tmp/NUnitTest.dll"
+      run_command(command)
+    end
+
     private
+
+    def unity_root
+      "/Applications/Unity/Unity.app/Contents"
+    end
+
+    def mono_path
+      "#{unity_root}/UnityExtensions/Unity/EditorTestsRunner/Editor"
+    end
+
+    def mono_binary
+      "#{unity_root}/Frameworks/MonoBleedingEdge/bin/mono"
+    end
+
+    def nunit_binary
+      "#{unity_root}/Frameworks/MonoBleedingEdge/lib/mono/unity/nunit-console.exe"
+    end
 
     # where to start looking for templates, required by the template methods
     # even though we are using absolute paths

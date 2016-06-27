@@ -216,12 +216,10 @@ module BasicUnity
       end
 
       if ($?.exitstatus == 0)
-        say
         say $?.inspect, :green
         say
         say_status "command succeeded", "", :green
       else
-        say
         say $?.inspect, :yellow
         say
         say_status "command failed", "", :red
