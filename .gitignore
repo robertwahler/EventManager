@@ -1,6 +1,7 @@
 .DS_Store
 /[lL]ibrary/
 /[tT]emp/
+/[tT]mp/
 /Assets/Tmp/
 /Assets/Tmp.meta
 *.csproj
