@@ -8,8 +8,6 @@ The code in this repository is a minor variation with added examples and tests
 of the event system originally described here:
 http://www.willrmiller.com/?p=87
 
-This repository was created with Unity version 5.3.1
-
 Features
 --------
 
@@ -57,8 +55,8 @@ HomeBrew ```brew install mono```
     mkdir build
 
     mcs -recurse:'Assets/EventManager/Source/*.cs' \
-        -lib:/Applications/Unity.5.3.1/Unity.app/Contents/Frameworks/ \
-        -lib:/Applications/Unity.5.3.1/Unity.app/Contents/Frameworks/Managed/ \
+        -lib:/Applications/Unity/Unity.app/Contents/Frameworks/ \
+        -lib:/Applications/Unity/Unity.app/Contents/Frameworks/Managed/ \
         -r:UnityEngine \
         -r:UnityEditor \
         -target:library \
@@ -74,10 +72,40 @@ Testing
 The NUnit test framework is included in Unity 5.3 and higher.  Tests require
 installation of the UnityTestTools asset for Unity 5.2 and lower.
 
+### Running tests from Unity IDE
+
 There is no Unity hotkey for running tests. Instead, manually use this menu sequence:
 
     Main Menu: Window, Editor Tests Runner
     Editor Tests: Run All
+
+### Running tests from the command line
+
+All command line test scripts require a Ruby Thor scripting environment with
+Ruby > 2.0. These commands are configured for execution on Mac OS X. Other
+environments will need to modify the Ruby source in the ./tasks folder.
+
+    gem install bundler
+    bundle install
+
+#### Using Unity to run the tests (SLOW)
+
+You need to shutdown the Unity IDE to run this command.
+
+    thor test:unit
+
+#### Using NUnit-console (FAST)
+
+The Unity IDE can be running.
+
+    thor test:nunit
+
+#### Using Guard and the NUnit-console (CI)
+
+This command will watch for file changes and automatically run the unit test
+suite. The Unity IDE can be running.
+
+    bundle exec guard
 
 Usage
 -----
