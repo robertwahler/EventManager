@@ -19,7 +19,7 @@ module BasicUnity
                 -r:UnityEngine \
                 -lib:/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/EditorTestsRunner/Editor/ \
                 -r:nunit.framework \
-                -out:tmp/NUnitTest.dll"
+                -out:tmp/EventManager.Tests.dll"
       run(command)
     end
 

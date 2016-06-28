@@ -45,7 +45,7 @@ module BasicUnity
     desc "nunit", "run unit tests via nunit-console, bypassing Unity"
     def nunit
       invoke("compile:test")
-      command = "export MONO_PATH=#{mono_path}; #{mono_binary} --debug #{nunit_binary} -noshadow tmp/NUnitTest.dll -xml=tmp/NUnitTest.Results.xml"
+      command = "export MONO_PATH=#{mono_path}; #{mono_binary} --debug #{nunit_binary} -nologo -noshadow tmp/EventManager.Tests.dll -xml=tmp/EventManager.Tests.xml"
       run_command(command)
     end
 
