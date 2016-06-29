@@ -1,4 +1,4 @@
-namespace Colors.Test {
+namespace Examples.Test {
   static class TestExtensions {
 
     public static object Call(this object obj, string methodName, params object[] args) {

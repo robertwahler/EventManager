@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Colors.Test {
+namespace Examples.Test {
 
   [SetUpFixture]
   public class TestSetup {

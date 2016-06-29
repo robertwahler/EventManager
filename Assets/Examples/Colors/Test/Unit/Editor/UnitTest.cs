@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 
-namespace Colors.Test {
+namespace Examples.Test {
 
   /// <summary>
   /// Base class for unit tests

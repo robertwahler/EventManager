@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
-namespace Colors.Test {
+using Colors;
+
+namespace Examples.Test.Colors {
 
   [TestFixture]
   [Category("UI")]
