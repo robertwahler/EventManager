@@ -11,12 +11,19 @@ module BasicUnity
     desc "test", "compile nunit tests"
     def test
       command = "#{mcs_binary} \
+                -debug \
                 -recurse:'Assets/EventManager/Source/*.cs' \
                 -recurse:'Assets/EventManager/Test/Editor/*.cs' \
+                -recurse:'Assets/Examples/Colors/Scripts/*.cs' \
                 -sdk:2 \
                 -target:library \
                 -lib:/Applications/Unity/Unity.app/Contents/Frameworks/Managed/ \
                 -r:UnityEngine \
+                -r:UnityEditor \
+                -r:Mono.Cecil \
+                -r:Mono.Cecil.Mdb \
+                -lib:/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/ \
+                -r:UnityEngine.UI \
                 -lib:/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/EditorTestsRunner/Editor/ \
                 -r:nunit.framework \
                 -out:tmp/EventManager.Tests.dll"
