@@ -11,6 +11,11 @@ module BasicUnity
     # adds :quiet, :skip, :pretent, :force
     add_runtime_options!
 
+    desc "guard", "watch source and run tests when either source or tests change"
+    def guard
+      run("bundle exec guard")
+    end
+
     # Run unit tests
     # https://docs.unity3d.com/Manual/testing-editortestsrunner.html
     # 0 = succeeded, 2 = succeeded, some tests failed, 3 = run failed
@@ -42,10 +47,19 @@ module BasicUnity
       end
     end
 
-    desc "nunit", "run unit tests via nunit-console, bypassing Unity"
+    desc "nunit", "run unit tests via nunit-console, bypassing Unity (Non-Unity API calls only)"
     def nunit
+      dll =  File.join(ROOT_FOLDER, "Tmp", "EventManager.Tests.dll")
+      xml =  File.join(ROOT_FOLDER, "Tmp", "EventManager.Tests.xml")
+
+      # remove the old files
+      remove_file(dll) if File.exists?(dll)
+      remove_file(xml) if File.exists?(xml)
+
+      # build the dll
       invoke("compile:test")
-      command = "export MONO_PATH=#{mono_path}; #{mono_binary} --debug #{nunit_binary} -nologo -noshadow tmp/EventManager.Tests.dll -xml=tmp/EventManager.Tests.xml"
+
+      command = "export MONO_PATH=#{mono_path}; #{mono_binary} --debug #{nunit_binary} -nologo -noshadow #{dll} -xml=#{xml}"
       run_command(command)
     end
 
@@ -56,7 +70,11 @@ module BasicUnity
     end
 
     def mono_path
-      "#{unity_root}/UnityExtensions/Unity/EditorTestsRunner/Editor"
+      paths = []
+      paths << "#{unity_root}/Frameworks/Managed"
+      paths << "#{unity_root}/UnityExtensions/Unity/EditorTestsRunner/Editor"
+      paths << "#{unity_root}/UnityExtensions/Unity/GUISystem"
+      paths.join(":")
     end
 
     def mono_binary
