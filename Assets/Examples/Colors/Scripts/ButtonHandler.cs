@@ -99,7 +99,9 @@ namespace Colors {
     protected virtual void SetOn(bool value) {
       on = value;
       string label = on ? "on" : "off";
-      text.text = label;
+      if (text != null) {
+        text.text = label;
+      }
     }
 
   }
