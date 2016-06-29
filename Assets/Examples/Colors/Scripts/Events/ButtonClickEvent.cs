@@ -3,7 +3,7 @@ namespace Colors.Events {
   /// <summary>
   /// Raised event signals a button was clicked
   /// </summary>
-  public class ButtonClickEvent : SDD.Events.Event {
+  public class ButtonClickEvent : BaseEvent {
 
     public ButtonHandler ButtonHandler { get; set; }
 

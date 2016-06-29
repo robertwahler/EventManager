@@ -65,8 +65,10 @@ namespace Colors {
     public void OnButtonClickEvent(ButtonClickEvent e) {
       Debug.Log(string.Format("ButtonHandler.OnClick({0}) name {1}", e, name));
 
-      if (e.ButtonHandler.kind == kind) {
-        On = !On;
+      if (!e.Handled) {
+        if (e.ButtonHandler.kind == kind) {
+          On = !On;
+        }
       }
     }
 
@@ -87,6 +89,7 @@ namespace Colors {
 
       buttonRemovedEvent.Name = name;
       buttonRemovedEvent.Kind = kind;
+      buttonRemovedEvent.Handled = true;
       EventManager.Instance.Raise(buttonRemovedEvent);
 
       GameObject.DestroyImmediate(gameObject);
