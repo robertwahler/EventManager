@@ -86,17 +86,13 @@ namespace Examples.Test {
     public void ClearSettings() {
       Debug.Log(string.Format("TestSetup.ClearSettingsFolder()"));
 
-      if (System.IO.Directory.Exists(TestPath)) {
-        // clear out test folder
-        System.IO.Directory.Delete(path: TestPath, recursive: true);
-      }
+      //if (System.IO.Directory.Exists(TestPath)) {
+        //System.IO.Directory.Delete(path: TestPath, recursive: true);
+      //}
 
-      if (!System.IO.Directory.Exists(TestPath)) {
-        System.IO.Directory.CreateDirectory(TestPath);
-      }
-
-      // Clear custom serialization files
-      //SDD.Settings.Clear();
+      //if (!System.IO.Directory.Exists(TestPath)) {
+        //System.IO.Directory.CreateDirectory(TestPath);
+      //}
     }
 
     private void StubSettingsPath() {
