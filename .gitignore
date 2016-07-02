@@ -2,6 +2,7 @@
 /[lL]ibrary/
 /[tT]emp/
 /[tT]mp/
+/[oO]bj/
 /Assets/Tmp/
 /Assets/Tmp.meta
 *.csproj
