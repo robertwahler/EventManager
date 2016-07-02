@@ -29,18 +29,23 @@ min_run_interval = 3000
 guard :shell do
   #watch(/(.*).txt/) {|m| `tail #{m[0]}` }
   watch(//) do |modified_files|
-    puts "Modified files: #{modified_files.inspect}"
+    puts "Modified files: #{modified_files[0]}"
 
     elapsed_time = ((Time.now - last_run).to_f * 1000.0).to_i
     if (elapsed_time > min_run_interval)
-      # Run via system command
-      # `thor test:nunit`
-
-      # Run directly, faster and has color output
       args = []
       opts = {}
-      script = BasicUnity::Test.new(args, opts)
-      script.invoke("test:nunit")
+
+      # run the mcs compiler for syntax checking because it is fast, if this
+      # fails, the next "heavy" Unity script will not run
+      script = BasicUnity::Compile.new(args, opts)
+      script.invoke("compile:test")
+
+      # run the full on Unity unit test suite only if compile succeeds
+      if ($?.exitstatus == 0)
+        script = BasicUnity::Test.new(args, opts)
+        script.invoke("test:unit")
+      end
     end
 
     last_run = Time.now

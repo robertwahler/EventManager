@@ -15,6 +15,7 @@ module BasicUnity
   PKG_FOLDER = File.join(ROOT_FOLDER, 'pkg')
   STAGING_FOLDER = File.join(TMP_FOLDER, 'staging')
   TASKS_FOLDER = File.join(ROOT_FOLDER, 'tasks')
+  LIBRARY_FOLDER = File.join(ROOT_FOLDER, 'Library')
 
   module BasicUnityHelper
 
