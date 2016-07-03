@@ -5,6 +5,9 @@ namespace Colors.Events {
   /// </summary>
   public class ButtonClickEvent : BaseEvent {
 
+    /// <summary>
+    /// Sender handler
+    /// </summary>
     public ButtonHandler ButtonHandler { get; set; }
 
     /// <summary>

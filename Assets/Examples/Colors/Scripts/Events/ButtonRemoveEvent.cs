@@ -5,6 +5,11 @@ namespace Colors.Events {
   /// </summary>
   public class ButtonRemoveEvent : BaseEvent {
 
+    /// <summary>
+    /// Sender handler
+    /// </summary>
+    public ButtonHandler ButtonHandler { get; set; }
+
     public string Name { get; set; }
 
     public ButtonKind Kind { get; set; }

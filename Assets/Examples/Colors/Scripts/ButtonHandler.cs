@@ -50,25 +50,42 @@ namespace Colors {
     public override void SubscribeEvents() {
       Debug.Log(string.Format("ButtonHandler.SubscribeEvents() name {0}", name));
 
-      EventManager.Instance.AddListener<ButtonClickEvent>(OnButtonClickEvent);
+      EventManager.Instance.AddListener<ButtonClickEvent>(OnButtonClick);
+      EventManager.Instance.AddListener<ButtonRemoveEvent>(OnButtonRemove);
     }
 
     public override void UnsubscribeEvents() {
       Debug.Log(string.Format("ButtonHandler.UnsubscribeEvents() name {0}", name));
 
-      EventManager.Instance.RemoveListener<ButtonClickEvent>(OnButtonClickEvent);
+      EventManager.Instance.RemoveListener<ButtonClickEvent>(OnButtonClick);
+      EventManager.Instance.RemoveListener<ButtonRemoveEvent>(OnButtonRemove);
     }
 
     /// <summary>
     /// Any button in the scene was clicked
     /// </summary>
-    public void OnButtonClickEvent(ButtonClickEvent e) {
-      Debug.Log(string.Format("ButtonHandler.OnClick({0}) name {1}", e, name));
+    public void OnButtonClick(ButtonClickEvent e) {
+      Debug.Log(string.Format("ButtonHandler.OnButtonClick({0}) name {1}", e, name));
 
+      // all senders welcome if not handled
       if (!e.Handled) {
         if (e.ButtonHandler.kind == kind) {
           On = !On;
         }
+      }
+    }
+
+    /// <summary>
+    /// Any button in the scene was clicked
+    /// </summary>
+    public void OnButtonRemove(ButtonRemoveEvent e) {
+      Debug.Log(string.Format("ButtonHandler.OnButtonRemove({0}) name {1}", e, name));
+
+      // only this sender is handled here
+      if ((!e.Handled) && (e.ButtonHandler == this)) {
+        GameObject.Destroy(gameObject);
+        // raise again as notice for logging, etc
+        EventManager.Instance.Raise(new ButtonRemoveEvent(){ ButtonHandler=this, Handled=true, Kind=e.Kind, Name=e.Name });
       }
     }
 
@@ -87,12 +104,12 @@ namespace Colors {
     public void RemoveClick() {
       Debug.Log(string.Format("ButtonHandler.OnRemove() name {0} removing, EventManager.DelegateLookupCount {1}", name, EventManager.Instance.DelegateLookupCount));
 
+      // set and raise, the actual event is handled in the listener
+      buttonRemoveEvent.ButtonHandler= this;
       buttonRemoveEvent.Name = name;
       buttonRemoveEvent.Kind = kind;
-      buttonRemoveEvent.Handled = true;
+      buttonRemoveEvent.Handled = false;
       EventManager.Instance.Raise(buttonRemoveEvent);
-
-      GameObject.DestroyImmediate(gameObject);
     }
 
     protected virtual bool GetOn() {
