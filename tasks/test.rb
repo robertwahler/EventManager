@@ -19,38 +19,89 @@ module BasicUnity
     # Run unit tests
     # https://docs.unity3d.com/Manual/testing-editortestsrunner.html
     # 0 = succeeded, 2 = succeeded, some tests failed, 3 = run failed
-    desc "unit", "run unit tests. NOTE: will not compile first, build to any target before running unit tests"
+    desc "unit", "run unit tests via Unity"
+    method_option :verbose, :type => :boolean, :desc => "Show vebose information including all tests, even passing ones."
     def unit
-      logfile =  File.join(ROOT_FOLDER, "Tmp", "test.unit.xml")
-
       # ensure the tmp folder exists
-      FileUtils::mkdir 'Tmp' unless File.exists?('Tmp')
+      FileUtils::mkdir 'tmp' unless File.exists?('tmp')
+
+      xml =  File.join(ROOT_FOLDER, "tmp", "EventManager.Tests.xml")
+      logfile =  File.join(ROOT_FOLDER, "tmp", "Unity.Editor.log")
+      target =  File.join(ROOT_FOLDER)
+      lockfile = File.join(ROOT_FOLDER, "Temp", "UnityLockFile")
+
+      if File.exists?(lockfile)
+        # symlink Assets, Library, ProjectSettings, POSIX only
+        say_status "shadow copy", "Lock file detected"
+        target =  File.join(ROOT_FOLDER, "tmp", "shadow")
+        shadow_copy(target)
+      end
 
       # clean up from last time
-      remove_file(logfile) if File.exists?(logfile)
+      remove_file(xml) if File.exists?(xml)
 
-      command = "#{unity_binary} -runEditorTests -batchMode -projectPath #{ROOT_FOLDER} -editorTestsResultFile #{logfile}"
-      run(command)
+      in_path(target) do
+        #run("pwd")
+        command = "#{unity_binary} -runEditorTests -nographics -batchMode -projectPath #{target} -editorTestsResultFile #{xml} -logFile #{logfile}"
+        run(command)
+      end
 
       color = ($?.exitstatus == 0) ? :green : :red
-      if File.exists?(logfile)
+      if File.exists?(xml)
         # parse xml and show results
-        File.open(logfile, "r") do |file|
+        File.open(xml, "r") do |file|
           doc = Nokogiri::XML(file)
+
+          # results summary
           doc.xpath('//test-results/@*').each do |element|
-            #puts element.inspect
+            color = :green
+            if (element.name == "failures")
+              color = :red if (element.value != "0")
+            end
             say_status element.name, element.value, color
           end
+
+          puts
+
+          # test names
+          doc.css('test-case').each do |element|
+            #puts element.inspect
+            output = options[:verbose] ? true : false
+            if (element.attr("success") == "True")
+              color = :green
+              msg = "#{element.attr("time")}"
+            else
+              color = :red
+              output = true
+              msg = "FAILED #{element.attr("time")}"
+            end
+            if output
+              # strip off Test namespace
+              name = element.attr("name").gsub(/.*\.Test\./, '')
+              say_status name, msg, color
+            end
+          end
+
+          puts
+
+          # stack traces
+          doc.css('stack-trace').each do |element|
+            #trace = element.attr("name") #.gsub(/.*\.Test\./, '')
+            #puts element.children.inspect
+            say_status "Failure", element.children.text.chomp, :red
+            #puts element.inspect
+          end
+
         end
       else
-        say_status "Run failed", "No log file created. See ~/Library/Logs/Unity/Editor.log", color
+        say_status "Run failed", "No xml file created. See #{logfile}", color
       end
     end
 
-    desc "nunit", "run unit tests via nunit-console, bypassing Unity (Non-Unity API calls only)"
+    desc "nunit", "run unit tests via NUnit-console, bypassing Unity (Non-Unity API calls only)"
     def nunit
-      dll =  File.join(ROOT_FOLDER, "Tmp", "EventManager.Tests.dll")
-      xml =  File.join(ROOT_FOLDER, "Tmp", "EventManager.Tests.xml")
+      dll =  File.join(ROOT_FOLDER, "tmp", "EventManager.Tests.dll")
+      xml =  File.join(ROOT_FOLDER, "tmp", "EventManager.Tests.xml")
 
       # remove the old files
       remove_file(dll) if File.exists?(dll)
@@ -64,6 +115,42 @@ module BasicUnity
     end
 
     private
+
+    # Create a shadow copy of the project to get around one instance per project limit
+    def shadow_copy(folder=nil)
+      folder =  File.join(ROOT_FOLDER, "tmp", "shadow") unless folder
+      FileUtils.mkdir_p(folder) unless File.exists?(folder)
+
+      #
+      # NOTE: symlinks don't work, need to copy the files
+      #
+
+      rsync_binary = '/usr/bin/rsync'
+      if File.exists?(rsync_binary)
+        from = File.join(ASSETS_FOLDER, '/')
+        to = File.join(folder, "Assets")
+        say_status "shadow copy", "#{from} #{to}"
+        cmd = "rsync -a --delete #{from} #{to}"
+        run(cmd)
+
+        from = File.join(PROJECT_FOLDER, '/')
+        to = File.join(folder, "ProjectSettings")
+        say_status "shadow copy", "#{from} #{to}"
+        cmd = "rsync -a --delete #{from} #{to}"
+        run(cmd)
+      else
+        # TODO: Need a method to reset the destination i.e. rsync's '--delete'
+        from = ASSETS_FOLDER
+        to = File.join(folder, "Assets")
+        say_status "shadow copy", "#{from} #{to}"
+        FileUtils.copy_entry(from, to)
+
+        from = PROJECT_FOLDER
+        to = File.join(folder, "ProjectSettings")
+        say_status "shadow copy", "#{from} #{to}"
+        FileUtils.copy_entry(from, to)
+      end
+    end
 
     def unity_root
       "/Applications/Unity/Unity.app/Contents"
