@@ -27,8 +27,7 @@ last_run = Time.now
 min_run_interval = 3000
 
 guard :shell do
-  #watch(/(.*).txt/) {|m| `tail #{m[0]}` }
-  watch(//) do |modified_files|
+  watch(/(.*).cs/) do |modified_files|
     puts "Modified files: #{modified_files[0]}"
 
     elapsed_time = ((Time.now - last_run).to_f * 1000.0).to_i
