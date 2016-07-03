@@ -10,6 +10,10 @@ namespace Colors.Events {
     /// </summary>
     public ButtonHandler ButtonHandler { get; set; }
 
+    public string Name { get; set; }
+
+    public ButtonKind Kind { get; set; }
+
     /// <summary>
     /// Return a string
     /// </summary>

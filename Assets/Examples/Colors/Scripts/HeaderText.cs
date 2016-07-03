@@ -34,20 +34,22 @@ namespace Colors {
     /// A button in the scene was clicked
     /// </summary>
     public void OnButtonClickEvent(ButtonClickEvent e) {
-      Debug.Log(string.Format("HeaderText.OnClick({0})", e));
-
-      string caption = string.Format("{0} '{1}' was clicked.\nEventManager.DelegateLookupCount is {2}", e.ButtonHandler.kind, e.ButtonHandler.name, EventManager.Instance.DelegateLookupCount);
-      text.text = caption;
+      if (e.Handled) {
+        Debug.Log(string.Format("HeaderText.OnClick({0})", e));
+        string caption = string.Format("{0} '{1}' was clicked.\nEventManager.DelegateLookupCount is {2}", e.Kind, e.Name, EventManager.Instance.DelegateLookupCount);
+        text.text = caption;
+      }
     }
 
     /// <summary>
     /// A button in the scene was destroyed
     /// </summary>
     public void OnButtonRemove(ButtonRemoveEvent e) {
-      Debug.Log(string.Format("HeaderText.OnButtonRemoved({0})", e));
-
-      string caption = string.Format("'{0}' was removed.", e.Name);
-      text.text = caption;
+      if (e.Handled) {
+        Debug.Log(string.Format("HeaderText.OnButtonRemoved({0})", e));
+        string caption = string.Format("'{0}' was removed.", e.Name);
+        text.text = caption;
+      }
     }
 
   }
