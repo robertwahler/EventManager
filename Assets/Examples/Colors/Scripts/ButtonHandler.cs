@@ -82,9 +82,9 @@ namespace Colors {
     }
 
     /// <summary>
-    /// OnRemove handler for the button on this specific GameObject
+    /// Remove click handler for the button on this specific GameObject
     /// </summary>
-    public void OnRemove() {
+    public void RemoveClick() {
       Debug.Log(string.Format("ButtonHandler.OnRemove() name {0} removing, EventManager.DelegateLookupCount {1}", name, EventManager.Instance.DelegateLookupCount));
 
       buttonRemoveEvent.Name = name;
