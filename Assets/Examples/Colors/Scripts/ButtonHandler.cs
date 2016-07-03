@@ -36,14 +36,14 @@ namespace Colors {
     /// minimize GC. Since this reference is only used once per object, it
     /// really isn't that useful.
     /// </remarks>
-    protected ButtonRemovedEvent buttonRemovedEvent;
+    protected ButtonRemoveEvent buttonRemoveEvent;
 
     protected override void OnEnable() {
       Debug.Log(string.Format("ButtonHandler.OnEnable() name {0}", name));
       base.OnEnable();
 
       // Fresh reference on each enable
-      buttonRemovedEvent = new ButtonRemovedEvent();
+      buttonRemoveEvent = new ButtonRemoveEvent();
       On = false;
     }
 
@@ -87,10 +87,10 @@ namespace Colors {
     public void OnRemove() {
       Debug.Log(string.Format("ButtonHandler.OnRemove() name {0} removing, EventManager.DelegateLookupCount {1}", name, EventManager.Instance.DelegateLookupCount));
 
-      buttonRemovedEvent.Name = name;
-      buttonRemovedEvent.Kind = kind;
-      buttonRemovedEvent.Handled = true;
-      EventManager.Instance.Raise(buttonRemovedEvent);
+      buttonRemoveEvent.Name = name;
+      buttonRemoveEvent.Kind = kind;
+      buttonRemoveEvent.Handled = true;
+      EventManager.Instance.Raise(buttonRemoveEvent);
 
       GameObject.DestroyImmediate(gameObject);
     }

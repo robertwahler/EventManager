@@ -3,7 +3,7 @@ namespace Colors.Events {
   /// <summary>
   /// Raised event signals a button is removed
   /// </summary>
-  public class ButtonRemovedEvent : BaseEvent {
+  public class ButtonRemoveEvent : BaseEvent {
 
     public string Name { get; set; }
 

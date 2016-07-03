@@ -20,14 +20,14 @@ namespace Colors {
       Debug.Log(string.Format("HeaderText.SubscribeEvents() name {0}", name));
 
       EventManager.Instance.AddListener<ButtonClickEvent>(OnButtonClickEvent);
-      EventManager.Instance.AddListener<ButtonRemovedEvent>(OnButtonRemovedEvent);
+      EventManager.Instance.AddListener<ButtonRemoveEvent>(OnButtonRemove);
     }
 
     public override void UnsubscribeEvents() {
       Debug.Log(string.Format("HeaderText.UnsubscribeEvents() name {0}", name));
 
       EventManager.Instance.RemoveListener<ButtonClickEvent>(OnButtonClickEvent);
-      EventManager.Instance.RemoveListener<ButtonRemovedEvent>(OnButtonRemovedEvent);
+      EventManager.Instance.RemoveListener<ButtonRemoveEvent>(OnButtonRemove);
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace Colors {
     /// <summary>
     /// A button in the scene was destroyed
     /// </summary>
-    public void OnButtonRemovedEvent(ButtonRemovedEvent e) {
+    public void OnButtonRemove(ButtonRemoveEvent e) {
       Debug.Log(string.Format("HeaderText.OnButtonRemoved({0})", e));
 
       string caption = string.Format("'{0}' was removed.", e.Name);
