@@ -67,9 +67,13 @@ module BasicUnity
           doc.css('test-case').each do |element|
             #puts element.inspect
             output = options[:verbose] ? true : false
-            if (element.attr("success") == "True")
+            msg = ""
+            if (element.attr("result") == "Success")
               color = :green
-              msg = "#{element.attr("time")}"
+              msg = "PASSED #{element.attr("time")}"
+            elsif (element.attr("result") == "Ignored")
+              color = :white
+              msg = "IGNORED #{element.attr("time")}"
             else
               color = :red
               output = true
