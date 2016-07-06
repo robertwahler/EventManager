@@ -5,6 +5,6 @@ group :development do
   gem "thor", ">= 0.16.0"
   gem "nokogiri", ">= 1.6.1"
   gem "guard", ">= 2.3.0"
-  gem "guard-shell", ">= 0.7.1"
+  gem "guard-yield"
 end
 

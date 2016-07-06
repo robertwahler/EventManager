@@ -9,7 +9,7 @@ namespace SDD.Assertions {
   public static class Assert  {
 
     public static void Equals(int a, int b) {
-      throw new System.InvalidOperationException("Assertion not supported. Use Assert.True() or Assert.False() instead");
+      throw new System.InvalidOperationException("Assertion not supported. Use Assert.True() or Assert.False() or use UnityEngine.Assertions.Assert directly.");
     }
 
     public static void True(bool condition) {
