@@ -107,6 +107,17 @@ suite. The Unity IDE can be running.
 
     bundle exec guard
 
+Syntax checking with Vim
+------------------------
+
+Do you use Vim instead of MonoDevelop/Visual Studio? Install
+https://github.com/neomake/neomake and add this to your .vimrc
+
+    let g:neomake_cs_mcs_maker = {
+      \ 'args': ['@.mcs'],
+      \ 'errorformat': '%f(%l\,%c): %trror %m',
+      \ }
+
 Usage
 -----
 

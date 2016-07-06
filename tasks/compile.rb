@@ -12,7 +12,7 @@ module BasicUnity
     desc "mcs", "create .mcs style response file from solution that includes editor and non-editor code and references"
     def mcs
       dll =  File.join(ROOT_FOLDER, "tmp", "EventManager.dll")
-      output =  File.join(ROOT_FOLDER, "tmp", "EventManager.mcs")
+      output =  File.join(ROOT_FOLDER, "tmp", "EventManager.mcs.txt")
 
       # ensure the tmp folder exists
       FileUtils::mkdir 'tmp' unless File.exists?('tmp')
@@ -69,7 +69,6 @@ module BasicUnity
       File.open(output, 'w') do |file|
         file.write(cleaned_lines.join("\n"))
       end
-
     end
 
     desc "test", "compile nunit tests"
@@ -95,6 +94,8 @@ module BasicUnity
 
     private
 
+    # parse XML solution files and return an array of lines to include in an
+    # mcs response file
     def parse_csproj(filename)
       lines = []
 
