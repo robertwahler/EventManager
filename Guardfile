@@ -3,6 +3,11 @@ require File.expand_path("../tasks/basic_unity_helper", __FILE__)
 require File.expand_path("../tasks/compile", __FILE__)
 require File.expand_path("../tasks/test", __FILE__)
 
+def notify(text, passed)
+  image = passed ? :success : :failed
+  Notifier.notify(text, title: 'Test Results', image: image)
+end
+
 # run limiter
 last_run = Time.now
 # minimum time between runs in msec
@@ -25,6 +30,11 @@ run = proc do |_guard, _command, files|
     if ($?.exitstatus == 0)
       script = BasicUnity::Test.new(args, opts)
       script.invoke("test:unit")
+      if ($?.exitstatus == 0)
+        notify("Unit tests passed.", true)
+      else
+        notify("Unit tests failed. Check console.", false)
+      end
     end
   end
 
