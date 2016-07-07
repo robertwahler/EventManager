@@ -31,9 +31,9 @@ run = proc do |_guard, _command, files|
       script = BasicUnity::Test.new(args, opts)
       script.invoke("test:unit")
       if ($?.exitstatus == 0)
-        notify("Unit tests passed.", true)
+        notify("Fourtex unit tests passed.", true)
       else
-        notify("Unit tests failed. Check console.", false)
+        notify("Fourtex unit tests failed. Check console.", false)
       end
     end
   end

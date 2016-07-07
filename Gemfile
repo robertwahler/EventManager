@@ -6,5 +6,10 @@ group :development do
   gem "nokogiri", ">= 1.6.1"
   gem "guard", ">= 2.3.0"
   gem "guard-yield"
+
+  group :darwin do
+    gem "terminal-notifier"
+    gem "terminal-notifier-guard"
+  end
 end
 
