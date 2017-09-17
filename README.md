@@ -66,6 +66,28 @@ HomeBrew ```brew install mono```
 
     cp build/SDD.EventManager.dll ~/your_unity_project/Assets/Lib/
 
+### Option 3: Installation via NPM
+
+To install via NPM the following is needed:
+* Install the [Node.js package manager](https://nodejs.org/en/download/)
+* In your Unity-project run `npm install --save unity3d.eventmanager`
+* Extend your `.gitignore` (or whatever else you're using)
+  * Add `node_modules`
+  * Add `package-lock.json`
+  * Add `Assets/packages/`
+  * Add `Assets/packages.meta`
+  
+You can also add a `package.json` to your Unity project that contains the following content:
+```
+{
+  "dependencies": {
+    "unity3d.eventmanager": "1.0.2"
+  }
+}
+```
+This way you can define what dependencies you need in a reproducible way.
+
+    
 Testing
 -------
 

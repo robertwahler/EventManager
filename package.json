@@ -1,0 +1,35 @@
+{
+  "name": "unity3d.eventmanager",
+  "version": "1.0.2",
+  "description": "A type-safe event system for Unity3D based on the event listener pattern. More info http://saltydog.digital/usage-pattern-for-a-type-safe-unity-event-system/",
+  "main": "npm/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertwahler/EventManager.git"
+  },
+  "keywords": [
+    "unity3d",
+    "eventsystem",
+    "events"
+  ],
+  "author": "Robert Wahler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robertwahler/EventManager/issues"
+  },
+  "homepage": "https://github.com/robertwahler/EventManager#readme",
+  
+  "files": [
+    "npm/postinstall.js",
+    "Assets/EventManager/Source/Event.cs",
+    "Assets/EventManager/Source/EventManager.cs",
+    "Assets/EventManager/Source/IEventHandler.cs"
+  ],
+  "scripts": {
+    "postinstall": "node npm/postinstall.js"
+  },
+  "dependencies": {
+    "ncp": "^2.0.0",
+    "mkdirp": "^0.5.1"
+  }
+}
