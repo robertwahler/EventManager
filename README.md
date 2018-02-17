@@ -20,6 +20,9 @@ Unity's own EventSystem may be more appropriate for that use case.
 * Type-safe
 * Avoids breaking changes when new event parameters are added
 
+EventManager includes a graphical EventVisualizer that shows how your classes are connected during runtime
+![EventVisualizer](https://user-images.githubusercontent.com/4217216/36345399-bbc9cf42-1429-11e8-8c3c-2bdc6362ead8.png)
+
 Installation
 ------------
 
@@ -81,7 +84,7 @@ You can also add a `package.json` to your Unity project that contains the follow
 ```
 {
   "dependencies": {
-    "unity3d.eventmanager": "1.0.2"
+    "unity3d.eventmanager": "1.1.0"
   }
 }
 ```
