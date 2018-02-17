@@ -38,6 +38,17 @@ namespace SDD.Events
         }
         private static EventManager instance = null;
 
+        public List<EventVisualizer.Base.EventCall> Events { get; private set; }
+        public bool EnableDebugLog { get; set; }
+        public bool EnableEventVisualization { get; set; }
+
+        private EventManager()
+        {
+            Events = new List<EventVisualizer.Base.EventCall>();
+            EnableEventVisualization = true;
+            EnableDebugLog = false;
+        }
+
         public delegate void EventDelegate<T>(T e) where T : Event;
         private delegate void EventDelegate(Event e);
 
@@ -57,13 +68,12 @@ namespace SDD.Events
         /// </summary>
         public void AddListener<T>(EventDelegate<T> del) where T : Event
         {
-
             if (delegateLookup.ContainsKey(del))
             {
                 return;
             }
 
-            LogListener(del);
+            if (EnableEventVisualization) LogAddListener(del);
 
             // Create a new non-generic delegate which calls our generic one.  This
             // is the delegate we actually invoke.
@@ -86,6 +96,7 @@ namespace SDD.Events
         /// </summary>
         public void RemoveListener<T>(EventDelegate<T> del) where T : Event
         {
+            if (EnableEventVisualization) LogRemoveListener(del);
 
             EventDelegate internalDelegate;
             if (delegateLookup.TryGetValue(del, out internalDelegate))
@@ -119,7 +130,7 @@ namespace SDD.Events
         /// </summary>
         public void Raise(Event e)
         {
-            LogRaise(e);
+            if (EnableEventVisualization) LogRaise(e);
 
             EventDelegate del;
             if (delegates.TryGetValue(e.GetType(), out del))
@@ -149,19 +160,47 @@ namespace SDD.Events
             return "";
         }
 
-        public Dictionary<string, string> listeners = new Dictionary<string, string>();
-        public Dictionary<string, string> senders = new Dictionary<string, string>();
-
         private void LogRaise(Event e)
         {
-            senders[GetCaller()] = e.GetType().ToString();
-            Debug.Log(GetCaller() + " raised " + e.GetType());
+            string eventName = e.GetType().ToString();
+            string sender = GetCaller();
+            if(EnableDebugLog) Debug.Log(sender + " raised " + eventName);
+
+            var newEvents = new List<EventVisualizer.Base.EventCall>();
+            foreach (var eventCall in Events)
+            {
+                if(eventCall.EventName == eventName)
+                {
+                    newEvents.Add(new EventVisualizer.Base.EventCall(sender, eventCall.Receiver, eventCall.EventName, eventCall.Method));
+                }
+            }
+            Events.AddRange(newEvents);
+            Events.RemoveAll(item => ((item.Sender == null) &&
+                                      (item.EventName == eventName)));
         }
 
-        private void LogListener<T>(EventDelegate<T> del) where T : Event
+        private void LogAddListener<T>(EventDelegate<T> del) where T : Event
         {
-            listeners[GetCaller()] = typeof(T).ToString();
-            Debug.Log(GetCaller() + " added Listener for " + typeof(T) + ": " + del.Method.Name);
+            string receiver = GetCaller();
+            string eventName = typeof(T).ToString();
+            string methodName = del.Method.Name;
+            if (EnableDebugLog) Debug.Log(receiver + " added Listener for " + eventName + ": " + methodName);
+            
+            //add this as an EventCall, even though there is no sender so far (this is needed to show empty slots)
+            EventVisualizer.Base.EventCall newCall = new EventVisualizer.Base.EventCall(null, receiver, eventName, methodName);
+            Events.Add(newCall);
+        }
+
+        private void LogRemoveListener<T>(EventDelegate<T> del) where T : Event
+        {
+            string receiver = GetCaller();
+            string eventName = typeof(T).ToString();
+            string methodName = del.Method.Name;
+            if (EnableDebugLog) Debug.Log(receiver + " removed Listener for " + eventName + ": " + methodName);
+
+            Events.RemoveAll(item => (  (item.EventName.Equals(eventName)) &&
+                                        (item.Receiver.Equals(receiver)) &&
+                                        (item.Method.Equals(methodName))));
         }
 
     }
