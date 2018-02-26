@@ -183,7 +183,10 @@ namespace SDD.Events
         {
             string receiver = GetCaller();
             string eventName = typeof(T).ToString();
-            string methodName = del.Method.Name;
+            string methodName = "<unknown>";
+#if UNITY_EDITOR
+            methodName = del.Method.Name;
+#endif
             if (EnableDebugLog) Debug.Log(receiver + " added Listener for " + eventName + ": " + methodName);
             
             //add this as an EventCall, even though there is no sender so far (this is needed to show empty slots)
@@ -195,7 +198,10 @@ namespace SDD.Events
         {
             string receiver = GetCaller();
             string eventName = typeof(T).ToString();
-            string methodName = del.Method.Name;
+            string methodName = "<unknown>";
+#if UNITY_EDITOR
+            methodName = del.Method.Name;
+#endif
             if (EnableDebugLog) Debug.Log(receiver + " removed Listener for " + eventName + ": " + methodName);
 
             Events.RemoveAll(item => (  (item.EventName.Equals(eventName)) &&

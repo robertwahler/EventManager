@@ -1,6 +1,6 @@
 {
   "name": "unity3d.eventmanager",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A type-safe event system for Unity3D based on the event listener pattern. More info http://saltydog.digital/usage-pattern-for-a-type-safe-unity-event-system/",
   "main": "npm/index.js",
   "repository": {
