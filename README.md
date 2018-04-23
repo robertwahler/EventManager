@@ -20,6 +20,9 @@ Unity's own EventSystem may be more appropriate for that use case.
 * Type-safe
 * Avoids breaking changes when new event parameters are added
 
+EventManager includes a graphical EventVisualizer that shows how your classes are connected during runtime
+![EventVisualizer](https://user-images.githubusercontent.com/4217216/36345399-bbc9cf42-1429-11e8-8c3c-2bdc6362ead8.png)
+
 Installation
 ------------
 
@@ -66,6 +69,28 @@ HomeBrew ```brew install mono```
 
     cp build/SDD.EventManager.dll ~/your_unity_project/Assets/Lib/
 
+### Option 3: Installation via NPM
+
+To install via NPM the following is needed:
+* Install the [Node.js package manager](https://nodejs.org/en/download/)
+* In your Unity-project run `npm install --save unity3d.eventmanager`
+* Extend your `.gitignore` (or whatever else you're using)
+  * Add `node_modules`
+  * Add `package-lock.json`
+  * Add `Assets/packages/`
+  * Add `Assets/packages.meta`
+  
+You can also add a `package.json` to your Unity project that contains the following content:
+```
+{
+  "dependencies": {
+    "unity3d.eventmanager": "1.1.0"
+  }
+}
+```
+This way you can define what dependencies you need in a reproducible way.
+
+    
 Testing
 -------
 
